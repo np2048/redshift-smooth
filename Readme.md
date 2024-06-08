@@ -19,7 +19,7 @@ The following rules will define that at 9 am the temperature will gradually incr
     09:00 -> 09:30 | 6500K
     09:30 -- 17:00 | 6500K
 
->Actually the last rule here is supplementary, the same result will be achieved without the third line.
+>Actually the last rule here is redundant, the same result will be achieved without the third line.
 
 ## Configuration file path
 
