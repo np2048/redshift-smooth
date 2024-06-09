@@ -35,6 +35,10 @@ Run the install script:
 
 Alternatively you can manually install the script. Copy it to `/usr/local/bin` directory and add a `cron` task to automatically run this script every 5 minutes (or at any other frequency if you wish).
 
+## Python version
+
+Tested with Python 3.12. Should also work well with other versions.
+
 ## License
 
 This software is distributed under the GPL-3.0 license.
