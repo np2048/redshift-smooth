@@ -58,22 +58,6 @@ def print_v( str ) :
     print( str )
     return
 
-""" 
-# Not needed because argparse has auto help message
-def show_help() :
-    print( DESCRIPTION )
-    
-    # Show the list of available arguments
-    if ARGS is None:
-        return
-    parsed_args_dict = vars(ARGS)
-    parsed_args_list = list(parsed_args_dict.items())
-    print("List of all parsed arguments:")
-    for arg, value in parsed_args_list:
-        print(f"{arg}: {value}")
-
-    return """
-
 # Custom class to ignore writes
 # Used to mute the program output 
 # if --silent or -s arguments passed
@@ -290,7 +274,7 @@ def main():
     if ( not os.path.exists( config_path ) ) :
         print( "Config file not found at path:" )
         print( config_path )
-        exit( os.EX_CONFIG )
+        sys.exit( os.EX_CONFIG )
     else:
         print_v( "Config file found at:" )
         print_v( config_path )
@@ -304,7 +288,7 @@ def main():
     # Terminate if no rules in the config
     if len( rules ) == 0 :
         print("No rules in the config file. Nothing to do.")
-        exit( os.EX_OK )
+        sys.exit( os.EX_OK )
 
     # Convert rules time to minutes
     rules = rules_minutes( rules )
