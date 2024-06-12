@@ -14,6 +14,8 @@ import io
 #   Global variables and settings
 # -----------------------------------------------
 
+VERSION = "v1.0.1"
+
 CONFIG_PATH = "~/.config/redshift-scheduler/rules.conf"
 
 DESCRIPTION = f"""
@@ -41,11 +43,17 @@ def parse_arguments() :
         formatter_class=argparse.RawDescriptionHelpFormatter
         )
     parser.add_argument(
+        '-c', '--config', type=str, 
+        help='Indicate explicitly the path to a config file to be used.')
+    parser.add_argument(
         '-v', '--verbose', action='store_true', 
-        help='Enable verbose mode')
+        help='Enable verbose mode.')
     parser.add_argument(
         '-s', '--silent', action='store_true', 
-        help='Do not show any output messages')
+        help='Do not show any output messages.')
+    parser.add_argument(
+        '-V', '--version', action='store_true', 
+        help='Show version number and quit.')
     args = parser.parse_args()
     return args
 
@@ -66,6 +74,13 @@ class dev_null :
         pass
     def flush(self):
         pass
+
+def get_path( str ):
+    """
+    Create a PosixPath object and expand short path to an absolute path.
+    """
+    path = pathlib.PosixPath( str )
+    return path.expanduser()
 
 def parse_config_str(s):
     # Prepare string
@@ -261,14 +276,18 @@ def calculate_temp( rule, time ):
 def main():
     global ARGS
 
+    # get correct full config file path
+    config_path = get_path( CONFIG_PATH )
+
     # process args
     ARGS = parse_arguments()
     if ARGS.silent :
         sys.stdout = dev_null()
-
-    # get correct full config file path
-    config_path = pathlib.PosixPath( CONFIG_PATH )
-    config_path = config_path.expanduser()
+    if ARGS.version :
+        print( VERSION )
+        sys.exit( os.EX_OK )
+    if ARGS.config :
+        config_path = get_path( ARGS.config )
 
     # Check if config file exists
     if ( not os.path.exists( config_path ) ) :
