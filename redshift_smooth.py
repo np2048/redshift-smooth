@@ -221,7 +221,7 @@ def set_temp( temp ):
     cmd = "redshift -P -O {}".format( temp )
     if ARGS.silent :
         cmd += ' > /dev/null'
-    print_v( "Shell command to execute: \n{}".format( cmd ) )
+    print_v( "\nShell command to execute: \n{}\n".format( cmd ) )
     os.system( 
         cmd
         )
@@ -312,12 +312,13 @@ def main():
     # Get current time in munutes
     now = datetime.datetime.now()
     current_time = time_to_minutes( now.hour, now.minute )
-    print_v( "Current time in minutes: {}".format( current_time ) )   
+    
 
     # Choose an applicable rule
     rule = find_rule( rules, current_time )
     print_v( "Rule to be used: \n{}".format( rule ) )
-    print_v( "Current time: {}".format( current_time ) )
+    print_v( "Current time in minutes: {}"
+        .format( current_time ) )
 
     # Calculate and set new temp
     temp = calculate_temp(
