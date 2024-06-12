@@ -35,6 +35,10 @@ Run the install script:
 
 Alternatively you can manually install the script. Copy it to `/usr/local/bin` directory and add a `cron` task to automatically run this script every 5 minutes (or at any other frequency if you wish).
 
+As this script modifies display settings you have to attach it to all the displays in the system. Or to a single particular display if you wish. Expample of a cron task for the first display:
+
+    */5 * * * * DISPLAY=:0 redshift-smooth
+
 ## Python version
 
 Tested with Python 3.12. Should also work well with other versions.

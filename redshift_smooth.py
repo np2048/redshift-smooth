@@ -115,7 +115,7 @@ def read_file_lines( path ):
 
 def str_strip ( string ):
     """Strip all spaces from a string:
-    at the begining, at the end and in the middle.
+    at the beginning, at the end and in the middle.
     """
     return " ".join( string.split() )
 
@@ -241,7 +241,7 @@ def get_temp_value( temp_str ):
 
 def calculate_temp( rule, time ):
     """
-    Calculate temperature according to the rule and the ammount of time passed from the start shift.
+    Calculate temperature according to the rule and the amount of time passed from the start shift.
 
     Returns the temperature string formatted like "6400K".
     """
