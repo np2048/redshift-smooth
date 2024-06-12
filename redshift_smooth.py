@@ -317,6 +317,7 @@ def main():
     # Choose an applicable rule
     rule = find_rule( rules, current_time )
     print_v( "Rule to be used: \n{}".format( rule ) )
+    print_v( "Current time: {}".format( current_time ) )
 
     # Calculate and set new temp
     temp = calculate_temp(
