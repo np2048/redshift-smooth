@@ -170,18 +170,28 @@ def rules_minutes( rules ):
         result.append( rule )
     return result
 
-def find_rule_index( rules, current_time ):
+def rule_by_index( rules, index ):
     """
-    Find the index of a rule that will fit to the current time.
-    Returns the integer index of a rule in the `rules` array
+    Get rule data from the list and setup it's previous temp (by previous rule data)
     """
+    rule = rules[ index ]
+    rule['prev_temp'] = rules[ index-1 ]['temp']
+    return rule
+
+def find_rule( rules, current_time ):
+    """
+    Find the a rule that will fit to the current time.
+    """
+    # Choose best suitable rule if not precise match
+    rules = sorted( rules, key = lambda rule: rule['start'])
     for i in range( 0, len(rules)-1 ):
-        rule = rules[i]
+        rule = rule_by_index( rules, i )
         if rule['start'] > current_time :
-            return i-1
+            return rule_by_index( rules, i-1 )
         if rule['end'] >= current_time :
-            return i
-    return -1
+            return rule
+    # If no rules found -> return last rule in the list
+    return rule_by_index( rules, -1 )
 
 def set_temp( temp ):
     """
@@ -229,13 +239,18 @@ def get_temp_value( temp_str ):
     if temp_str == '' : return 0
     return int(temp_str)
 
-def calculate_temp( rule, time, prev_temp ):
+def calculate_temp( rule, time ):
     """
     Calculate temperature according to the rule and the ammount of time passed from the start shift.
 
     Returns the temperature string formatted like "6400K".
     """
-    if time < rule['start'] :   return prev_temp
+    next_day = rule['start'] > rule['end']
+    if next_day :
+        day_minutes = 24*60
+        rule['end'] += day_minutes
+        if time < rule['start'] : time += day_minutes
+    if time < rule['start'] :   return rule['prev_temp']
     if time > rule['end'] :     return rule['temp']
     if rule['arrow'] == '--':   return rule['temp']
 
@@ -247,7 +262,7 @@ def calculate_temp( rule, time, prev_temp ):
     
     # Apply the same proportion to temperature shift
     max_temp = get_temp_value( rule['temp'] )
-    min_temp = get_temp_value( prev_temp )
+    min_temp = get_temp_value( rule['prev_temp'] )
     max_d_temp = max_temp - min_temp
     d_temp = max_d_temp * proportion
     d_temp = int( d_temp )
@@ -294,24 +309,19 @@ def main():
     # Convert rules time to minutes
     rules = rules_minutes( rules )
 
-    # Sort rules
-    rules = sorted( rules, key = lambda d: d['start'])
-
     # Get current time in munutes
     now = datetime.datetime.now()
     current_time = time_to_minutes( now.hour, now.minute )
     print_v( "Current time in minutes: {}".format( current_time ) )   
 
     # Choose an applicable rule
-    i = find_rule_index( rules, current_time )
-    print_v( "Rule to be used: \n{}".format( rules[i] ) )
-    print_v( "Previous rule temperature: {}".format( rules[ i-1 ]['temp'] ) )
+    rule = find_rule( rules, current_time )
+    print_v( "Rule to be used: \n{}".format( rule ) )
 
     # Calculate and set new temp
     temp = calculate_temp(
-        rules[i], 
-        current_time, 
-        rules[ i-1 ]['temp'] )
+        rule,
+        current_time )
     set_temp( temp )
 
     return # main()

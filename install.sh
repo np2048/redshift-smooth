@@ -10,7 +10,7 @@ echo $cmd
 eval $cmd
 
 # Install the app
-script="/usr/local/bin/redshift-smooth"
+script="/usr/bin/redshift-smooth"
 cmd="sudo cp redshift_smooth.py $script"
 echo $cmd
 eval $cmd
