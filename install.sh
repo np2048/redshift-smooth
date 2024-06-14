@@ -24,7 +24,7 @@ eval $cmd
 # Function to add cron job for a specific display
 add_cron_job() {
   local display=$1
-  local cron_job="*/5 * * * * DISPLAY=$display XAUTHORITY=$HOME/.Xauthority $script"
+  local cron_job="*/1 * * * * DISPLAY=$display XAUTHORITY=$HOME/.Xauthority $script"
   
   # Get the current user's crontab
   current_crontab=$(crontab -l 2>/dev/null)
