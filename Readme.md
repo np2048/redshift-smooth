@@ -9,11 +9,11 @@ This program works similar to 'redshift-scheduler' and supports config-file of t
 
 ## What is it for
 
-This script allow you to define rules for `redshift` according to system time. You can define some fixed rules the binary switch the screen temperature and also some *smooth* rules that will gradually increase of decrease the temperature.
+This script allows you to define rules for `redshift` according to system time. You can define some fixed rules to instantly switch the screen temperature and also some *smooth* rules that will gradually increase or decrease the temperature.
 
 ## Config examples
 
-The following rules will define that at 9 am the temperature will gradually increase from 6200K to 6500K and stay fixed until 5 pm.
+Following rules will define that at 9 am the temperature will gradually increase from 6200K to 6500K and stay fixed until 5 pm.
 
     08:00 -> 09:00 | 6200K
     09:00 -> 09:30 | 6500K
@@ -23,7 +23,7 @@ The following rules will define that at 9 am the temperature will gradually incr
 
 ## Configuration file path
 
-The config-file must be placed to `~/config/redshift-scheduler/rules.conf.` This is done automatically by running `install.sh`
+The config-file must be placed to `~/.config/redshift-scheduler/rules.conf.` This is done automatically by running `install.sh`
 
 The default config may be used as an example. You can find it in this repository: `rules.conf`
 
@@ -33,11 +33,11 @@ Run the install script:
 
     ./install.sh
 
-Alternatively you can manually install the script. Copy it to `/usr/local/bin` directory and add a `cron` task to automatically run this script every 5 minutes (or at any other frequency if you wish).
+Alternatively you can manually install the script. Copy it to `/usr/bin` directory and add a `cron` task to automatically run this script every 1 minute or at any other frequency if you wish.
 
 As this script modifies display settings you have to attach it to all the displays in the system. Or to a single particular display if you wish. Expample of a cron task for the first display:
 
-    */5 * * * * DISPLAY=:0 redshift-smooth
+    */1 * * * * DISPLAY=:0 redshift-smooth
 
 ## Python version
 

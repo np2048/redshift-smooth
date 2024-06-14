@@ -113,13 +113,15 @@ def read_file_lines( path ):
     return lines_array
 
 def str_strip ( string ):
-    """Strip all spaces from a string:
+    """
+    Strip all spaces from a string:
     at the beginning, at the end and in the middle.
     """
     return " ".join( string.split() )
 
 def trim_comments_single( str ):
-    """Trim comments from a string like this:
+    """
+    Trim comments from a string like this:
     Some data # this is a comment
     """
     return str.split('#', 1)[0]
